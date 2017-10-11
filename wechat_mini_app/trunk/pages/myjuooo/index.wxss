@@ -1,0 +1,61 @@
+/* pages/myjuooo/index.wxss */
+@import "../../component/showList/showList.wxss";
+@import "../../component/tabbar/tabbar.wxss";
+@import "../../component/nullTip/nullTip.wxss"; 
+
+/*个人中心用户信息*/
+.myinfo-wrap{
+    height: 210rpx;
+    background: #ff7919;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    animation: fadeIn 1s;
+}
+.my-avatar {
+    width: 110rpx;
+    height: 110rpx; 
+    border-radius: 100%;
+    overflow: hidden;
+    box-shadow: 0 0 160rpx rgba(255, 255, 255, .6);
+    margin: 0 30rpx;
+}
+.my-avatar image{
+    width: 110rpx;
+    height: 110rpx;
+}
+.my-namebox{
+    flex:auto;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+.my-nickname {
+    padding: 10rpx 20rpx;
+    /*background-color: rgba(0, 0, 0, .1);
+    border-radius: 32rpx;
+    box-shadow: 0 0 20rpx rgba(0, 0, 0, .2) inset,1px 1px 0 rgba(255, 255, 255, .1);*/
+    font-size: 32rpx;
+    max-width: 350rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.my-phone{
+  margin-left:20rpx;
+  margin-top:10rpx;
+  font-size: 24rpx;
+}
+.my-address {
+    padding: 50rpx 30rpx;
+    color: #fff;
+    font-size: 24rpx;
+}
+
+.my-order{
+    height: 80rpx;
+    padding: 0 20rpx;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    background: #f4f4f4;
+}

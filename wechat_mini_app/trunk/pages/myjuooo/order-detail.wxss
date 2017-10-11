@@ -1,0 +1,482 @@
+/* pages/myjuooo/order-detail.wxss */
+@import "../../component/showList/showList.wxss";
+@import "../../component/nullTip/nullTip.wxss"; 
+
+page {
+  background: #f6f6f6;
+}
+
+.inline-block{
+  display: inline-block;
+}
+
+view, icon, text, navigator, image, textarea, input, ul, ol, p, h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0;
+  clear: both;
+}
+
+.status-item {
+  text-align: center;
+  /*display: none;*/
+}
+
+.status-item.active {
+  display: block;
+}
+/*倒计时*/
+.countdown-wrap {
+  height: 100rpx;
+  background: #fff5ee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.countdown-wrap .pay-txt {
+  color: #999;
+  font-size: 24rpx;
+}
+.countdown-wrap .count-txt {
+  font-size: 32rpx;
+  color: #ff7919;
+}
+
+
+.order-status {
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 32rpx;
+  color: #fff;
+  background: #ff984f;
+}
+
+.order-info {
+  background: #fff;
+  padding: 0 20rpx;
+  margin-bottom: 20rpx;
+}
+
+/*演出信息*/
+.order-info .show-box {
+  padding: 30rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+}
+.order-info .show-box .show-poster {
+  width: 150rpx;
+  height: 200rpx;
+  margin-right: 30rpx;
+  overflow: hidden;
+}
+.order-info .show-box .show-poster image {
+  max-height: 200rpx;
+  max-width: 150rpx;
+}
+.order-info .show-right {
+  width: 530rpx;
+}
+.order-info .show-right .title {
+  font-size: 30rpx;
+  line-height: 40rpx;
+  color: #212121;
+  margin: 10rpx 0 25rpx;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.order-info .show-right .time,
+.order-info .show-right .address {
+  font-size: 24rpx;
+  color: #666;
+}
+.show-box .show-right .price{
+  font-size: 32rpx;
+  color: #ff7919;
+}
+.show-box .show-right .num{
+  font-size: 24rpx;
+  color: #999;
+}
+
+.order-info .total {
+  height: 100rpx;
+  line-height: 100rpx;
+  padding-right: 10rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-info .total .txt {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.order-info .total .cost {
+  color: #ff7919;
+  font-size: 32rpx;
+}
+
+.order-info .total .cost .icon {
+  color: #ff7919;
+  font-size: 24rpx;
+  margin-right: 5rpx;
+}
+
+.order-info .total .cost .num {
+  float: right;
+  margin-top: 4rpx;
+}
+
+.order-info .ticket-box {
+  display: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-info .ticket-box.active {
+  display: block;
+}
+
+.order-info .ticket-box .ticket-item {
+  height: 90rpx;
+  line-height: 90rpx;
+  padding: 0 24rpx;
+  font-size: 24rpx;
+  color: #999;
+  position: relative;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+.order-info .ticket-box .ticket-item:last-child {
+  border-bottom: none;
+}
+
+.order-info .ticket-box .ticket-item .icon {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.order-info .ticket-box .ticket-item .num {
+  float: right;
+  margin: 5rpx 0 0 5rpx;
+}
+
+.order-info .ticket-box .ticket-item .right {
+  position: absolute;
+  top: 0;
+  right: 24rpx;
+}
+
+.order-info .pack-up {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  color: #666;
+  text-align: center;
+  position: relative;
+  /*border-bottom: 1px solid #ebebeb;*/
+}
+
+.order-info .pack-up .icon {
+  font-size: 20rpx;
+  margin-left: 5rpx;
+}
+
+.order-info .pack-up.spread .icon {
+  transform: rotate(180deg);
+  transform-origin: 10rpx 38rpx;
+}
+
+.send-wrap {
+  padding: 0 20rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.send-wrap .send-way {
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #666;
+  font-size: 24rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.send-wrap .send-way .way {
+  color: #333;
+  margin-right: 10rpx;
+}
+
+.send-wrap .person-info {
+  padding: 30rpx 0;
+}
+
+.send-wrap .person-info .person {
+  color: #212121;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.send-wrap .person-info .person .name {
+  display: inline-block;
+  margin-right: 20rpx;
+}
+
+.send-wrap .person-info .address {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/*上门取票*/
+.send-wrap .pick-info {
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: #333;
+  border-bottom: 1px dashed #f0f0f0;
+  display: flex;
+}
+.send-wrap .pick-info .pick-title{
+  width:130rpx;
+  flex: none;
+}
+.send-wrap .pickinfo-wrap{
+  /*flex: auto;*/
+}
+.send-wrap .pick-info .name {
+  margin: 0 15rpx 0 25rpx;
+}
+
+.send-wrap .pick-box {
+  padding: 30rpx 0;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.send-wrap .pick-box .item {
+  margin-bottom: 10rpx;
+}
+
+.send-wrap .pick-box .item:last-child {
+  margin-bottom: 0;
+}
+
+.send-wrap .pick-box .item .left {
+  width: 120rpx;
+}
+
+.send-wrap .pick-box .item .right {
+  width: 590rpx;
+}
+
+.send-wrap .code-box {
+  padding: 40rpx 0 30rpx 0;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+.send-wrap .code-box .reminder {
+  width: 465rpx;
+  margin: 0 auto;
+  text-align: center;
+  color: #666;
+  font-size: 24rpx;
+}
+
+.send-wrap .code-box image {
+  display: block;
+  width: 280rpx;
+  height: 280rpx;
+  margin: 20rpx auto;
+}
+
+.send-wrap .code-box .verification {
+  color: #666;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.send-wrap .mobilphone, .send-wrap .card-remin {
+  height: 90rpx;
+  line-height: 90rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.send-wrap .card-box {
+  padding: 30rpx 0;
+  color: #333;
+  font-size: 28rpx;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+.send-wrap .card-box .card-num {
+  margin-bottom: 15rpx;
+}
+
+.goods-info {
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.price-wrap {
+  padding: 0 20rpx;
+}
+
+.price-wrap .item {
+  height: 100rpx;
+  line-height: 100rpx;
+  border-bottom: 1px solid #f0f0f0;
+  color: #666;
+  font-size: 28rpx;
+  position: relative;
+}
+
+.price-wrap .item:last-child {
+  border-bottom: none;
+}
+
+.price-wrap .item .right {
+  position: absolute;
+  top: 0;
+  right: 10rpx;
+}
+
+.price-wrap .item .minus {
+  color: #333;
+  float: left;
+}
+
+.price-wrap .item .icon-yuan {
+  font-size: 20rpx;
+  color: #333;
+  float: left;
+  margin-top: -2rpx;
+  margin-right: 5rpx;
+}
+
+.price-wrap .item .icon-up {
+  font-size: 22rpx;
+  color: #999;
+  float: right;
+  margin-left: 8rpx;
+}
+
+.price-wrap .item .icon-up.spread {
+  transform: rotate(180deg);
+}
+
+.deduction-wrap {
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  display: none;
+  padding: 0 20rpx;
+}
+
+.deduction-wrap.active {
+  display: block;
+}
+
+.deduction-wrap .item {
+  height: 90rpx;
+  line-height: 90rpx;
+  border-bottom: 1px dashed #f0f0f0;
+  color: #999;
+  font-size: 24rpx;
+  position: relative;
+  padding-left: 24rpx;
+}
+
+.deduction-wrap .item:last-child {
+  border-bottom: none;
+}
+
+.deduction-wrap .item .right {
+  position: absolute;
+  top: 0;
+  right: 24rpx;
+  color: #999;
+}
+
+.deduction-wrap .item .icon-yuan {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: -3rpx;
+  float: left;
+}
+
+.deduction-wrap .item .minus {
+  float: left;
+}
+
+.order-wrap {
+  background: #fff;
+  padding: 30rpx 20rpx;
+  margin-bottom: 20rpx;
+  color: #666;
+  font-size: 28rpx;
+}
+
+.order-wrap .serial-num {
+  margin-bottom: 20rpx;
+}
+
+/*底部*/
+.footer {
+  width: 100%;
+  height: 110rpx;
+  background: #fff;
+  font-size: 32rpx;
+  border-top: 1px solid #f0f0f0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer .left {
+  padding-left: 20rpx;
+  color: #ff7919;
+}
+.footer .right{
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    align-items: center;
+}                  
+.footer .right .btn{
+    height: 80rpx;
+    line-height: 80rpx;
+    margin-right: 30rpx;
+    margin-left: 0;
+    font-size: 32rpx;
+    color: #999;
+    background-color: #fff;
+    border-radius:5rpx;
+}
+.footer .right .btn::after{
+    border-radius:10rpx;
+}
+.footer .right .btn.pay{
+    background-color: #ff7919;
+    color: #fff;
+    border-color:#ff7919;
+    order: -1;
+}
+
+.rotate180 {
+  transform: rotate(180deg);
+}

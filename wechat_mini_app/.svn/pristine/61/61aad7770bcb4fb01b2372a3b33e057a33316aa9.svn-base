@@ -1,0 +1,132 @@
+<!--pages/pay/pay.wxml-->
+<block wx:if="{{showPage}}">
+<!--头部-->
+<view class="pay">
+  <view class="show-item">
+      <view class="show-img">
+        <!--<view wx:if="{{schedule.ico}}" class="{{schedule.ico}}"></view>-->
+        <image class="img" mode="aspectFit" src="{{schedule.pic}}"></image>
+      </view>
+      <view class="item-right">
+          <text class="title">{{schedule.schedular_name}}</text>
+          <view class="time">时间：{{schedule.display_time}}</view>
+          <view class="venue">场馆：{{schedule.venue_name}}</view>
+      </view>
+  </view>
+  <view  bindtap="toggleTicketsListTap" class="total">
+    合计（{{ticketsCount}}张）:
+    <view class="total-right">￥{{ticketsPriceSum}} <view style="color:#ccc" class="icon icon-circlearrow-down {{toggleGoodsArrowClass}}"></view></view>
+  </view>
+  <view class="total-foot {{toggleGoodsListClass}}" style="{{toggleGoodsListStyle}}" wx:for="{{ticketsList}}">
+    <view class="item">票价￥{{item.price}} * {{item.ticket_num}}
+      <text class="tota">￥{{item.priceSum}}</text>
+    </view>
+    <!--<view class="item">票价￥180*2 <text class="tota">￥360</text></view>-->
+  </view>
+</view>
+<!--头部-->
+
+<!--配送方式-->
+<view class="express">
+  <text class="little">配送方式：</text>
+  <view class="express-box">
+    <button data-shipping_id="{{item.shippingId}}" class="exp {{item.shippingId == selectedShippingId ? 'active' : ''}}" wx:for="{{shippingWay}}" bindtap="switchShippingWayTap">{{item.shippingName}}</button>
+  </view>
+  <!--快递-->
+  <view class="exp-box" hidden="{{selectedShippingId == 1 ? false : true}}">
+    <view class="exp-foot" hidden="{{selectedAddressShow ? false : true}}" data-aid="{{selectedAddress.address_id}}" bindtap="selectShippingAddressTap">
+      <text class="name">{{selectedAddress.consignee}} {{selectedAddress.mobile}}</text>
+      <text class="adress">{{selectedAddress.address}}</text>
+      <image class="arrow" src="../../images/arrow-right.png"></image>
+    </view>
+
+    <view class="select-wrap" hidden="{{selectedAddressShow ? true : false}}" bindtap="selectShippingAddressTap">
+      <image class="add" src="../../images/add.png"></image>
+      <text class="address-txt">选择配送信息</text>
+      <image class="arrow" src="../../images/arrow-right.png"></image>
+    </view>
+
+  </view>
+    <!--现场取票-->
+  <view class="live-wrap" hidden="{{selectedShippingId === 4 ? false : true}}">
+    <view class="title">请填写姓名和手机号，该信息将作为取票凭证</view>
+    <form class="info-form">
+      <view class="name-row">
+        <input bindinput="presentShippingNameInput" value="{{shippingInfoMap[4].user_name}}" maxlength="12" type="text" class="name" placeholder="姓名" />
+      </view>
+      <view class="tel-row">
+        <input bindinput="presentShippingMobileInput" value="{{shippingInfoMap[4].mobile}}" maxlength="11" type="text" class="tel" placeholder="手机号" />
+      </view>
+    </form>
+    <view class="pick-wrap">
+      <view class="pick-add">
+        <text>取票地址：</text>
+        <text class="txt">{{shippingInfoMap[4].ticket_address}}</text>
+      </view>
+      <view class="pick-time">
+        <text>{{shippingInfoMap[4].tips}}</text>
+        <text class="txt"></text>
+      </view>
+    </view>
+  </view>
+
+  <!--电子票-->
+  <view class="electron" hidden="{{selectedShippingId === 2 ? false : true}}">
+    <view class="title">请填写姓名和手机号，该信息将作为取票凭证</view>
+    <form class="info-form">
+      <view class="name-row">
+        <input bindinput="elecTicketShippingNameInput" value="{{shippingInfoMap[2].user_name}}" maxlength="12" type="text" class="name" placeholder="姓名" />
+      </view>
+      <view class="tel-row">
+        <input bindinput="elecTicketShippingMobileInput" value="{{shippingInfoMap[2].mobile}}" maxlength="11" type="text" class="tel" placeholder="手机号" />
+      </view>
+      
+    </form>
+  </view>
+
+
+</view>
+<!--配送方式-->
+
+<!--实名认证-->
+<view bindtap="certificateBtnTap" class="send-wrap renzheng" hidden="{{showCertificateBtn ? false : true}}">
+  <view class="icon icon-cert"></view> 该项目需要实名认证购票，点击去认证<view class="icon-arrow"></view>
+</view>
+<view class="send-wrap certification-info-wrap" hidden="{{showUserCertification ? false : true}}">
+  <view class="send-way">
+    <text>身份验证</text>
+    <view class="fr way">
+      <text class="way-txt cb2">已验证</text>
+
+      <!--<icon class="icon icon-right" />-->
+    </view>
+  </view>
+  <view data-cid="{{item.user_certification_id}}" class="card-box" wx:for="{{userCertificationData}}">
+    <view class="card-num">{{item.id_name}}
+      <text class="c6">{{item.id_number}}</text>
+    </view>
+  </view>
+</view>
+<!--实名认证end-->
+
+<!--合计-->
+<view class="imtem">
+  <view class="item">商品合计：
+    <text class="item-right">￥{{ticketsPriceSum}}</text>
+  </view>
+  <view class="item">运费合计：
+    <text class="item-right">￥{{shippingFee}}</text>
+  </view>
+</view>
+<!--合计-->
+
+<!--底部-->
+<view class="footer">
+  <view class="foot-left">应付:
+    <text class="price">￥{{payTotalMoney}}</text>
+  </view>
+  <button disabled = "{{disablePayBtn}}" class="btn" bindtap="payTap">
+    <image class="wx" src="../../images/wx.png"></image>{{payBtnTxt}}</button>
+</view>
+<!--底部-->
+</block>

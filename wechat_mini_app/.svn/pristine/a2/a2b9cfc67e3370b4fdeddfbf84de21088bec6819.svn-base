@@ -1,0 +1,4 @@
+/* pages/ticket/index.wxss */
+.sch-block .cover-block{float: left;}
+.sch-block image{width: 300rpx;height: 350px;}
+.sch-block{}

@@ -1,0 +1,43 @@
+<import src="wxSearch.wxml"/>
+<view class="search">
+    <view class="search-bar">
+        <view class="top">
+            <icon type="search" size="20" style="margin-left: 10rpx;" />
+            <input class="txt" focus bindinput="wxSearchInput" bindfocus="wxSerchFocus" value="{{searchKeyword}}" placeholder="搜索" maxlength="20" confirm-type="search" bindconfirm="wxSearchFn"/>
+            <icon type="clear" bindtap="clearSearch" size="20" style="margin-right: 10rpx;"/>
+        </view>
+        <icon class="btn" bindtap="wxSearchFn">搜索</icon>
+    </view>
+    <template is="wxSearch" data="{{wxSearchData}}"/>
+    
+<!--搜索结果-->
+<block wx:if="{{searchResultList.length}}" >
+    <view class="result-top">共{{resultTotal}}个结果</view>
+    <view class="recommend-box search-result">
+        <!--列表-->
+        <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower">
+            <block wx:for="{{searchResultList}}" wx:key="*this" data-data="{{item}}">
+                <view class="recom-list">
+                    <image class="img"src="{{imgDomain}}{{item.pic}}"></image>
+                    <view class="recom-right">
+                        <text class="little">{{item.schedule_name}}</text>
+                        <view class="time">时间：{{item.show_time}}</view>
+                        <view class="adress">场馆：{{item.v_name}}</view>
+                        <view class="price">{{item.price}}</view>
+                    </view>
+                </view>
+            </block>
+            <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view> 
+            <view class="loading complete" hidden="{{!searchLoadingComplete}}">已加载全部</view> 
+        </scroll-view> 
+    </view>
+</block>
+<block wx:else>
+    <view class="seek">
+        <image class="img" src="images/no.png"></image>
+        <view class="txt">没有找到相关演出</view>
+    </view>
+</block>
+<!--搜索结果-->
+
+</view>

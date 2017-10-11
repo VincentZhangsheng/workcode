@@ -1,0 +1,261 @@
+
+.detail-container {
+  background: #f6f6f6;
+  padding-bottom: 110rpx;
+}
+
+/*详情页海报区*/
+.poster-wrap {
+  width: 100%;
+  height: 528rpx;
+  position: relative;
+  overflow: hidden;
+}
+.poster-bg {
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  filter:blur(30rpx);
+  transform:scale(1.2);
+}
+.poster-wrap .poster {
+  /*width: 286rpx;
+  height: 378rpx;*/
+  width: 280rpx;
+  height: 372rpx;
+  position: absolute;
+  top: 114rpx;
+  left: 235rpx;
+  z-index: 2;
+  border: 6rpx solid #fff;
+}
+.poster-wrap .poster .poster-img {
+  width: 280rpx;
+  height: 372rpx;
+}
+.poster-wrap .poster-fg {
+  overflow: hidden;
+  position: absolute;
+  bottom: -20rpx;
+  left: -25%;
+  z-index:1;
+  border-top: 1px solid #ccc;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  width: 150%;
+  height: 120rpx;
+  background: #fff;
+}
+.poster-wrap .tour-num {
+  font-size: 24rpx;
+  position: absolute;
+  right: 20rpx;
+  bottom: 120rpx;
+  border: 1px solid #dadada;
+  border-radius: 8rpx;
+  padding: 10rpx;
+  color: #dadada;
+}
+
+/*排期信息*/
+.show-info {
+  padding:0 20rpx;
+  background: #fff;
+  font-size: 28rpx;
+  color: #666;
+}
+.show-info .title {
+  font-size: 34rpx;
+  line-height: 50rpx;
+  margin-bottom: 25rpx;
+  word-break: break-word;
+  font-weight: bold;
+  color: #212121;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.show-info .row {
+  font-size: 28rpx;
+  padding-bottom: 10rpx;
+  display: flex;
+  align-items: center;
+}
+.show-info .venue-name {
+  max-width: 510rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 20rpx;
+  border-right: 1px solid #ccc;
+  margin-right: 10rpx;
+  line-height: 28rpx;
+}
+.show-info .price {
+  padding: 20rpx 0;
+  font-size: 36rpx;
+  color: #ff7919;
+}
+
+/*支持*/
+.support {
+  border-top: 1px solid #f0f0f0;
+  height: 80rpx;
+  font-size: 26rpx;
+  color: #999;
+  display: flex;
+  align-items: center;
+}
+.support .sup-item {
+  margin-left: 13rpx;
+  border: 1px solid #ff7919;
+  border-radius: 3rpx;
+  padding: 0 5rpx;
+  height: 32rpx;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  color: #ff7919;
+}
+
+/*简介*/
+.brief-intro {
+  margin: 22rpx 0;
+  padding: 0 30rpx;
+  background: #fff;
+  color: #666;
+}
+.brief-intro .title {
+  padding-top: 45rpx;
+  padding-bottom: 20rpx;
+  font-size: 34rpx;
+  font-weight: normal;
+  text-align: center;
+  color: #212121;
+}
+.brief-intro .brief-text {
+  font-size: 28rpx;
+  line-height: 50rpx;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+.brief-intro .go-detail {
+  padding: 35rpx 0;
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+}
+
+.wicked {
+  margin: 22rpx 0;
+  width: 100%;
+}
+.wicked image {
+  width: 750rpx;
+  height: 120rpx;
+}
+
+
+/*购票须知*/
+.notice {
+  margin-bottom: 22rpx;
+  padding: 0 30rpx;
+  background: #fff;
+  color: #666;
+}
+.notice .title {
+  padding-top: 45rpx;
+  padding-bottom: 20rpx;
+  font-size: 34rpx;
+  font-weight: normal;
+  text-align: center;
+  color: #212121;
+}
+.notice .notice-text {
+  font-size: 28rpx;
+  line-height: 50rpx;
+  overflow: hidden;
+}
+.notice .info-text {
+  margin-top: 15rpx;
+  border-top: 1rpx dashed #f0f0f0;
+  padding: 26rpx 0 35rpx;
+  font-size: 26rpx;
+  line-height: 35rpx;
+  color: #666;
+}
+
+/*底部按钮*/
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 110rpx;
+  line-height: 110rpx;
+  display: flex;
+  justify-content: space-around; 
+  color: #fff;
+  font-size: 34rpx;
+  font-weight: bold;
+  text-align: center;
+}
+.footer .normal {
+  flex-grow: 1;
+  width:1%;
+  background-color: #ff7919;
+}
+.footer .disable {
+  flex-grow: 1;
+  width:1%;
+  background-color: #d9d9d9;
+}
+
+.lookMore{
+  height:100px;overflow:hidden;
+}
+
+/*演出取消*/
+.cancel-wrap{
+  padding: 20rpx 40rpx;
+  border-top: 1rpx solid #ebebeb;
+}
+.cancel-box{ 
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 40rpx 0;
+}
+.cancel-box .cancel-title{
+    line-height: 32rpx;
+    font-size: 32rpx;
+    color: #fe5d36;  
+}
+.cancel-box .cancel-title icon{
+  vertical-align:text-top;
+  margin-right: 10rpx;
+}
+.cancel-box .cancel-tip{
+    font-size: 24rpx;
+    color: #999;
+    padding-top: 20rpx;
+}
+
+/*实名认证*/
+.cert-wrap{
+    height: 90rpx;
+    line-height: 90rpx;
+    font-size: 26rpx;
+    color: #666;
+    border-top: 1px dashed #f0f0f0;
+}
+

@@ -1,0 +1,124 @@
+//index.js
+var bmap = require('../../utils/bmap-wx.js');
+var wxMarkerData = [];
+var tabbar = require('../../component/tabbar/tabbar')
+var util = require('../../utils/util')
+
+//获取应用实例
+var app = getApp()
+var BMap = new bmap.BMapWX();
+
+Page({
+  data: {
+    userInfo: {},
+    imgDomain: app.conf.url.imgDomain,
+    showList: [],
+    showLoadingFlag: true,
+  },
+  onLoad: function () {
+    var that = this
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log(res)
+        app.globalData.rpxHeight = util.px2rpx(res.windowHeight)
+      },
+    })
+    // tabbar.setCurrentTabbar.call(that, '首页')
+  },
+  onShow: function(){
+    var that = this;
+    if (app.globalData.cityId == app.globalData.lastCityId ){
+      return;
+    }
+    if (app.globalData.cityId) {
+      that.setData({
+        cityId: app.globalData.cityId,
+        cityName: app.globalData.cityName
+      })
+      that.fetchRecommend(app.globalData.cityId)
+    } else {
+      that.fetchRecommend(0)
+      BMap.regeocoding({
+        fail: function (data) {
+          console.log(data)
+          that.setData({
+            cityId: app.globalData.cityId,
+            cityName: app.globalData.cityName
+          })
+        },
+        success: function (data) {
+          wx.request({
+            url: app.conf.url.getCityInfo,
+            data: { name: data.originalData.result.addressComponent.city },
+            header: { "Content-Type": "application/json" },
+            success: function (res) {
+              wx.hideLoading()
+              if (res.data.code == '200') {
+                var juoCity = res.data.data;
+                // console.log(juoCity)
+                app.globalData.cityId = juoCity.id;
+                app.globalData.cityName = juoCity.name;
+                that.setData({
+                  cityId: juoCity.id,
+                  cityName: juoCity.name
+                })
+                that.fetchRecommend(juoCity.id)
+              }
+            }
+          })
+        },
+      });
+    }
+  },
+  //获取请求结果
+  fetchRecommend: function (cityId) {
+    let that = this;
+    console.log(cityId)
+    wx.request({
+      url: app.conf.url.indexRecommend,
+      data: {
+        city_id: cityId,
+      },
+      method: 'GET',
+      header: { 'content-Type': 'application/json' },
+      success: function (res) {
+        if (res.data.code == 200) {
+          app.globalData.lastCityId = cityId;
+          let apiData = res.data.data
+          if (apiData) {
+            console.log(apiData)
+            that.setData({
+              showLoadingFlag: false,
+              showList: apiData,
+            });
+          }
+        }
+      }
+    })
+  },
+  bindSearch: function(){
+    wx.navigateTo({
+      url: "/pages/search/index"
+    })
+  },
+  //tabbar切换
+  swithTab: function (e) {
+    let route = getCurrentPages(),
+      tapUrl = e.currentTarget.dataset.path,
+      currentUrl = '/' + route[route.length - 1].route;
+    if (tapUrl != currentUrl) {
+      wx.redirectTo({
+        url: tapUrl,
+      })
+    }
+  },
+  onShareAppMessage: function () {
+    return {
+      title: '聚橙网',
+      path: '/pages/index/index'
+    }
+  }
+
+
+})
+

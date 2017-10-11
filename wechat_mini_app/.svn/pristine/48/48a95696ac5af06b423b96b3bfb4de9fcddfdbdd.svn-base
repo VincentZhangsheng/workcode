@@ -1,0 +1,33 @@
+<!--pages/myjuooo/address/index.wxml-->
+<block wx:if="{{showAddr}}">
+  <scroll-view scroll-y="true" style="height:{{scrollHeight}}rpx;">
+      <block wx:if="{{haveAddr}}">
+        <block wx:for="{{addressList}}" wx:key="address_id">
+        <view class="addr-item" data-aid="{{item.address_id}}" bindtap="selectItemTap">
+            <block wx:if="{{mode=='select'}}">
+              <icon wx:if="{{item.address_id==selectedAid}}" type="success" size="20" color="#ff7919"/>
+              <view wx:else class="icon icon-circle"></view>
+            </block>
+            <view class="item-left">
+                <view class="person"><text class="name">{{item.consignee}}</text>{{item.mobile}}</view>
+                <view class="addr">
+                    <text class="default" wx:if="{{item.state==1}}">[默认]</text>{{item.region}}{{item.address}}
+                </view>
+            </view>
+            <view class="item-right" catchtap="editAddrTap" data-aid="{{item.address_id}}">
+                <view class="icon icon-pen"></view>
+            </view>
+        </view>
+        </block>
+      </block>
+      <block wx:else>
+        <import src="../../component/nullTip/nullTip.wxml"/>
+        <template is="nullTip" data="{{nullTip: nullTip}}"/>
+      </block>
+  </scroll-view>
+  <view class="footer">
+    <view class="new-btn" bindtap="editAddrTap">新增地址</view>
+  </view>
+</block>
+<import src="../../component/message/message.wxml"/>
+<template is="message" data="{{message: message}}"/>

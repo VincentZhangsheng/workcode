@@ -1,0 +1,376 @@
+//index.js
+/*
+  * 结算页
+  *
+  * @date 2017-5-4
+  * @author YuanFei
+  * @param {Int} scid 排期编号 
+  *
+  */
+var app = getApp();
+var util = require('../../utils/util.js');
+
+Page({
+  data: {
+   selectedQuantity:0,     //已选总张数
+   selectedPrice:0,        //已选总票价
+   selectedTickets:{},  //已选票品
+   tickets:[],          //票品数据
+   sches:[],            //接口排期票品数据
+   enterScid:0,         //进入页面的排期ID
+   selectedScid:'',     //已选中排期ID
+   ticketLimit:16        //可选票总张数限制
+  },
+  //票价选择按钮
+  ticketSelectTap: function(event) {
+    var tid   = event.currentTarget.dataset.tid,
+        index = event.currentTarget.dataset.index;
+    
+    //库存判断
+    if(this.data.tickets[index].stock < 1)
+    {
+      return;
+    }
+    
+    if(!this.data.tickets[index].active)
+    {
+      if(this.data.selectedQuantity >= this.data.ticketLimit)
+      {
+        wx.showToast({
+          title: '已超出可选张数限制！',
+          icon:false,
+          duration: 2000
+        });
+        return;
+      }
+      this.data.selectedTickets[index]          = this.data.tickets[index];
+      this.data.selectedTickets[index].quantity = 1;
+    }
+    else
+    {
+      delete this.data.selectedTickets[index];
+    }
+
+    this.setData({
+        selectedTickets:this.data.selectedTickets
+      });
+
+    this.data.tickets[index].active = !this.data.tickets[index].active;
+    this.setData({
+        tickets:this.data.tickets
+      });   
+    
+    this.refreshSelectedTicketSum();
+
+  },
+  //删除票价按钮
+  delSelectTap: function(event) {
+    var index = event.currentTarget.dataset.index;
+
+    delete this.data.selectedTickets[index];
+    this.setData({
+        selectedTickets:this.data.selectedTickets
+      });
+
+    this.data.tickets[index].active = !this.data.tickets[index].active;
+    this.setData({
+        tickets:this.data.tickets
+      });
+    this.refreshSelectedTicketSum();
+
+  },
+  //增加票价数量按钮
+  addTicketQuantity: function(event) {
+    var index = event.currentTarget.dataset.index;
+
+    if(this.data.selectedQuantity >= this.data.ticketLimit)
+    {
+      wx.showToast({
+        title: '已超出可选张数限制！',
+        icon:false,
+        duration: 2000
+      });
+      return;
+    }
+    
+    
+    if(this.data.selectedTickets[index].quantity >= this.data.selectedTickets[index].stock)
+    {
+      wx.showToast({
+        title: '此票价库存不足！',
+        icon:false,
+        duration: 2000
+      });
+      return;
+    }
+
+    this.data.selectedTickets[index].quantity += 1;
+    this.setData({
+        selectedTickets:this.data.selectedTickets
+      });
+    this.refreshSelectedTicketSum();
+  },
+  //减少票价数量按钮
+  minusTicketQuantity: function(event) {
+    var index = event.currentTarget.dataset.index;
+
+    if(this.data.selectedTickets[index].quantity < 2)
+    {      
+      return;
+    }
+
+    this.data.selectedTickets[index].quantity -= 1;
+    this.setData({
+        selectedTickets:this.data.selectedTickets
+      });
+    this.refreshSelectedTicketSum();
+
+  },
+  //刷新当前已选票张数总和以及总价
+  refreshSelectedTicketSum: function(event) {
+    var totalQuantity = 0,
+        totalPrice    = 0;
+
+    for(var k in this.data.selectedTickets)
+    {
+      totalQuantity += this.data.selectedTickets[k].quantity;
+      totalPrice    += parseFloat(this.data.selectedTickets[k].price) * this.data.selectedTickets[k].quantity;
+    }
+    this.setData({
+      selectedQuantity:totalQuantity,
+      selectedPrice:totalPrice
+    });
+
+  },
+  //日期场次选择按钮
+  dateSelectTap: function(event) {
+    var scid = event.currentTarget.dataset.scid;
+
+    var that = this;
+
+    if(this.data.selectedQuantity > 0)
+    {
+        wx.showModal({
+          title: '提示',
+          content: '切换场次会清空已选票价，是否确认切换？',
+          success: function(res) {
+            if (res.confirm) 
+            {
+              that.selectDate(scid);
+              that.data.selectedTickets = {};
+              that.setData({
+                selectedTickets:that.data.selectedTickets
+              });
+              that.refreshSelectedTicketSum();
+            } 
+            else if (res.cancel) 
+            {
+
+            }
+          }
+        });
+    }
+    else
+    {
+      this.selectDate(scid);
+    }
+    
+  },
+  //日期场次选择
+  selectDate(scid)
+  {    
+    if(this.data.sches[scid].active)
+    {
+      return;
+    }
+    this.data.sches[scid].active = true;
+    this.data.sches[this.data.selectedScid].active = false;
+    this.setData({
+        sches:this.data.sches
+      });    
+    this.data.selectedScid = scid;
+    console.log(this.data.sches[scid].ticket_list)
+    this.setData({
+        tickets:this.data.sches[scid].ticket_list
+      });
+  },
+  getTicketsByScid:function()
+  {
+
+    
+  },
+  getSches(scid,showId,venueId,cityId)
+  {
+    var that = this;
+
+    wx.showLoading({
+      title:'加载中...'
+    });
+    wx.request({
+        url: app.conf.url.getTicketsByScid,
+        data: {type:6,id:scid,showId:showId,venueId:venueId,cityId:cityId},
+        header:{'content-type': 'application/x-www-form-urlencoded',},
+        method: 'POST',        
+        success: function(res) {
+          if(res.data.code == '1')
+          {
+            var sches = res.data.data;
+            for(var k in sches)
+            {
+              sches[k].showTimeText = util.dateFormat('Y.m.d',sches[k].show_time);
+              sches[k].showTimeWeekText = util.getWeek(sches[k].show_time) + util.dateFormat(' H:i',sches[k].show_time);
+
+              if(that.data.enterScid == k)
+              {
+                sches[k].active        = true;
+                that.data.selectedScid = k;
+                that.setData({
+                  tickets:sches[k].ticket_list
+                });
+              }
+
+              //排期下所有票价库存判断
+              var noStock = true;
+
+              for(var k1=0;k1<sches[k].ticket_list.length;k1++)
+              {
+                if(sches[k].ticket_list[k1].stock > 0)
+                {
+                  noStock = false;
+                  break;
+                }
+              }
+
+              if(noStock)
+              {
+                sches[k].past = true;
+              }
+
+            }
+
+            that.setData({
+              sches:sches
+            });
+          }
+          else
+          {
+            wx.showToast({
+              title: '提示',
+              showCancel:false,
+              content: '系统繁忙，请稍后再试！',
+              success: function(res) {
+                if (res.confirm) {
+                }
+              }
+            });
+          }            
+        },
+        fail: function(res) {
+          wx.showToast({
+              title: '提示',
+              showCancel:false,
+              content: '系统繁忙，请稍后再试！',
+              success: function(res) {
+                if (res.confirm) {
+                }
+              }
+            });
+        },
+        complete: function(res) {
+          wx.hideLoading();
+        }
+    });
+  },
+  //购票确定按钮
+  confirmTap: function() {
+
+    var tickets = [];
+
+    for(var k in this.data.selectedTickets)
+    {
+      var item = this.data.selectedTickets[k].id + '_' + this.data.selectedTickets[k].quantity + '_' + 2;
+      tickets.push(item);
+    }
+    tickets = tickets.join('^');
+
+    //335918_4_2^335919_2_2
+    this.buyTickets(tickets);
+
+  },
+  //购票请求函数
+  buyTickets:function(tickets)
+  {
+    return;
+    wx.navigateTo({
+              url: '../order_check/index?_k=ddfa98d6e8ee7c7a9d3653299653ad29&type=1&class=1'
+            });return;
+    var that = this;
+    app.sessionRequest({
+      url: app.conf.url.buyTickets,
+      data: {type:1,tickets:tickets,platform:'wx_mini_app'},
+      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      // header: {}, // 设置请求的 header
+      success: function(res){
+        if(res.data.code == 'ok')
+        {
+            var _k    = res.data.data._k,
+                _type = res.data.data.type,
+                _class = res.data.data.class;
+
+            //_k = 'ddfa98d6e8ee7c7a9d3653299653ad29';
+            wx.navigateTo({
+              url: '../order_check/index?_k='+_k+'&type='+_type+'&class='+_class
+            });
+        }
+        else if(res.data.code == 'needLogin')
+        {
+          app.login({
+            success:function()
+            {
+              this.buyTickets(tickets);
+            }
+          });
+        }
+      },
+      fail: function(res) {
+        // fail
+      },
+      complete: function(res) {
+        // complete
+      }
+    })
+  },
+  onLoad: function (options) {
+    var that = this;
+    var scid    = options.scid,
+        showId  = options.sid,
+        venueId = options.vid,
+        cityId  = options.cid;
+
+  scid    = scid ? scid : 70248;
+  showId  = showId ? showId : 29730;
+  venueId = venueId ? venueId : 1079;
+  cityId  = cityId ? cityId : 1;
+
+
+    if (!scid || !showId || !venueId || !cityId)
+    {
+        wx.showModal({
+          title: '提示',
+          showCancel:false,
+          content: '访问出错！',
+          success: function(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            }
+          }
+        });
+        return;
+    }
+
+    this.setData({enterScid:scid});
+
+    this.getSches(scid,showId,venueId,cityId)
+
+  }
+})

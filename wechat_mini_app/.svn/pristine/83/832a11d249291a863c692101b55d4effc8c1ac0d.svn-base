@@ -1,0 +1,62 @@
+//index.js
+/*
+  * 结算页
+  *
+  * @date 2017-5-4
+  * @author YuanFei
+  * @param {String} _k 加密订单编号
+  *
+  */
+var app = getApp()
+Page({
+  data: {
+    motto: 'Hello World',
+    userInfo: {}
+  },
+  //事件处理函数
+  bindViewTap: function() {
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
+  },
+  onLoad: function (options) {
+    var that = this;
+    var _k = options._k;
+
+    _k = 'ddfa98d6e8ee7c7a9d3653299653ad29';
+    
+
+    if (!_k)
+    {
+        wx.showModal({
+          title: '提示',
+          showCancel:false,
+          content: '访问出错！',
+          success: function(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            }
+          }
+        });
+        return;
+    }
+
+    wx.request({
+        url: app.conf.url.orderCheckInfo, 
+        data: {_k:_k},
+        header: {
+            'content-type': 'application/json'
+        },
+        success: function(res) {
+            if(res.data.code=='ok')
+            {
+
+            }
+            else if(res.data.code == "login")
+            {
+              app.login()
+            }
+        }
+    });
+  }
+})

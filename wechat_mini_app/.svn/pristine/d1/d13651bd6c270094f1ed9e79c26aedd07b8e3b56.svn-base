@@ -1,0 +1,118 @@
+/* pages/search/search.wxss */
+@import "wxSearch.wxss";
+page{
+    display: flex; 
+    flex-direction: column; 
+    height: 100%;
+    background: #f4f4f4;
+}
+ 
+.search{ 
+    flex: auto; 
+    display: flex; 
+    flex-direction: column; 
+} 
+/*搜索bar*/
+.search-bar{ 
+    flex: none; 
+    display: flex; 
+    align-items: center;
+} 
+.top{
+    width:570rpx;
+    height: 75rpx;
+    border-radius: 10rpx;
+    margin-left: 20rpx;
+    position:relative;
+    float:left;
+    display:flex;
+    align-items:center;
+    background: #fff;
+    margin-top: 20rpx;
+    box-sizing: border-box;
+}
+.txt{
+    height: 75rpx;
+    font-size: 28rpx;
+    color: #333;
+    margin:0 20rpx;
+    padding: 0;
+    flex: 1;
+}
+.btn{
+    width: 120rpx;
+    height: 75rpx;
+    border-radius: 10rpx;
+    background: #ff7919;
+    text-align: center;
+    line-height: 75rpx;
+    color: #fff;
+    display: inline-block;
+    font-size: 28rpx;
+    margin-left: 20rpx;
+    margin-top: 20rpx;
+    box-sizing: border-box;
+}
+
+/*无结果*/
+.seek{
+    text-align: center;
+    padding-top: 215rpx
+}
+.seek .img{
+    width: 223rpx;
+    height: 195rpx;
+    margin: 0 auto;
+    display: block
+}
+.seek .txt{
+    font-size: 24rpx;
+    color: #999;
+    margin-top: 25rpx;
+}
+
+
+/*搜索结果*/ 
+.result-top{
+    padding: 0 20px;
+    height:60rpx;
+    line-height: 60rpx;
+    font-size: 28rpx;
+    background: #f4f4f4;
+}
+
+.search-result{ 
+    flex: auto; 
+    position: relative; 
+} 
+.search-result scroll-view{ 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    top: 0;
+    background: #fff;
+} 
+.search-result .recom-right .little{
+    margin:0;
+    padding-top:0;
+    padding-bottom:0;
+    margin-bottom: 20rpx;
+}
+.loading{ 
+    padding: 10rpx; 
+    display:flex;
+    font-size:28rpx;
+    justify-content:center;
+} 
+.loading:before{ 
+    margin-right: 5rpx; 
+    content: ''; 
+    width: 28rpx; 
+    height: 28rpx; 
+    background: url(../../images/loading.gif) no-repeat; 
+    background-size: contain;
+} 
+.loading.complete:before{ 
+    display: none; 
+} 

@@ -1,0 +1,17 @@
+<template name="tab-bar">
+<!-- 默认在底部 -->
+  <view class="tabbar-wrap">
+    <block wx:for="{{ tabbarData }}" wx:key="title">
+      <!--<navigator url="{{item.pagePath}}" hover-class="none" open-type="redirect">-->
+        <view class="tabbar-item {{ (currentTabbar==item.text)?'active':'' }}" data-path="{{item.pagePath}}" bindtap="swithTab">
+          <view class="icon {{item.iconClass}}"></view>
+          <view class="tabbar-text">{{ item.text }}</view>
+          <!-- 右上角 红色数字 -->
+          <!--<view class="jh-tab-bubble" wx:if="{{ tabItem.iCount > 0}}">
+            <text class="jh-tab-count">{{ tabItem.iCount < 100? tabItem.iCount: 99 }}</text>
+          </view>-->
+        </view>
+      <!--</navigator>-->
+    </block>
+  </view>
+</template>

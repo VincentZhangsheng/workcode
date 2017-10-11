@@ -1,0 +1,105 @@
+<!--选择场次-->
+<view class="price">
+    <text class="tittle">选择场次</text>
+    <view class="price-box">
+     
+        <view data-scid="{{index}}" class="price-item {{item.past ? 'past' : ''}} {{item.active ? 'active' : ''}}" wx:for="{{sches}}" bindtap="dateSelectTap">
+            <text class="time">{{item.showTimeText}}</text>
+            <text class="day">{{item.showTimeWeekText}}</text>
+        </view>
+
+        <!--
+        <view class="price-item past">
+            <text class="time">2017.03.27</text>
+            <text class="day">周日 10:30</text>
+            <image src="images/arrow.png"></image>
+            <text></text>
+        </view>
+        <view class="price-item active" bindtap="dateSelectTap">
+            <text class="time">2017.03.27</text>
+            <text class="day">周日 10:30</text>
+        </view>
+        <view class="price-item">
+            <text class="time">2017.03.27</text>
+            <text class="day">周日 10:30</text>
+            <image src="images/arrow.png"></image>
+        </view>
+        <view class="price-item">
+            <text class="time">2017.03.27</text>
+            <text class="day">周日 10:30</text>
+            <image src="images/arrow.png"></image>
+        </view>
+        <view class="price-item">
+            <text class="time">2017.03.27</text>
+            <text class="day">周日 10:30</text>
+            <image src="images/arrow.png"></image>
+        </view>
+        <view class="price-item price-item2">
+            <text class="time">2017.03.27-2017.04.05</text>
+        </view> 
+        <view class="price-item price-item2">
+            <text class="time">2017.03.27-2017.04.05</text>
+            <image src="images/arrow.png"></image>
+        </view>
+        -->
+    </view>
+</view>
+<!--选择场次-->
+
+<!--选择价格-->
+<view class="price">
+    <text class="tittle">选择价格</text>
+    <view class="price-box">
+        <view data-tid="{{item.id}}" data-index="{{index}}" data-stock="{{item.stock}}" class="price-item {{item.stock > 0 ? '' : 'past'}} {{item.active ? 'active' : ''}}" wx:for="{{tickets}}" bindtap="ticketSelectTap"> 
+            <text class="time">￥{{item.price}}</text>
+            <text wx:if="{{item.name}}" class="num">{{item.name}}</text>
+        </view>
+        <!--<view class="price-item past">
+            <text class="time">￥180</text>
+            <text class="num">套票 ￥200*3</text>
+        </view>
+        <view class="price-item active">
+            <text class="time">￥180</text>
+            <text class="num">套票 ￥200*3</text>
+        </view>
+        <view class="price-item active">
+            <text class="time">￥180</text>
+            <text class="num">套票 ￥200*3</text>
+        </view>
+        <view class="price-item active">
+            <text class="time">￥180</text>
+            <text class="num">套票 ￥200*3</text>
+        </view>-->
+    </view>
+    <!--<view class="price-box">
+        <view class="price-item">
+            <text class="time">￥180</text>
+            <text class="num">套票 ￥200*3</text>
+        </view>
+    </view>
+    <text class="tip">*该票价参与满300减50活动</text>
+    -->
+</view>
+<!--选择价格-->
+
+<!--价格数量-->
+<view class="footer">
+<view class="ticket">
+    <view class="item" wx:for="{{selectedTickets}}">
+        <text class="unit-price">￥{{item.price}}</text>
+        <view class="unit-right">
+            <text data-index='{{index}}' bindtap="minusTicketQuantity" class="subtract">-</text>
+            <input type="text" class="num" value="{{item.quantity}}" />
+            <text data-index='{{index}}' bindtap="addTicketQuantity" class="add">+</text>
+            <image data-tid='{{item.id}}' data-index='{{index}}' bindtap="delSelectTap" src="images/delete.png"></image>
+        </view>
+    </view>
+</view>
+<view class=" foot">
+    <image class="down" src="images/down.png"></image>
+    <text>{{selectedQuantity}}张</text>
+    <text class="price">￥{{selectedPrice}}</text>
+    <button bindtap="confirmTap" class="sure">确定</button>
+</view>
+</view>
+<!--价格数量-->

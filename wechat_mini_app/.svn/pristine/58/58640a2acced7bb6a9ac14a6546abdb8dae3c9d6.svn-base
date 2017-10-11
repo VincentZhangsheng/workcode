@@ -1,0 +1,69 @@
+/**app.wxss**/
+
+/*列表*/
+.recommend-box .img{
+  width: 180rpx;
+  height: 240rpx;
+  overflow: hidden;
+  float: left;
+}
+.recommend-box .img image{
+  width: 180rpx
+}
+
+.recommend-box .recom-right{
+  margin-left: 25rpx;
+  float: left;
+  width:495rpx;
+}
+
+.recommend-box .recom-right .little{
+  color: #212121;
+  font-size: 28rpx;
+  line-height: 38rpx;
+  margin-bottom: 20rpx;
+  margin-top: 10rpx;
+  display: -webkit-box;
+  display: box;
+  display: -moz-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+.recommend-box .recom-right .time,
+.recommend-box .recom-right .adress{
+  font-size: 24rpx;
+  color: #666;
+  line-height: 36rpx;
+}
+
+.recommend-box .recom-right .price{
+  color: #ff7919;
+  font-size: 26rpx;
+  margin-top:35rpx;
+}
+
+.recom-list{
+  padding: 25rpx 0;
+  margin: 0 25rpx;
+  overflow: hidden;
+  border-bottom:1px solid #ebebeb;
+}     
+
+.recom-list:last-child{
+  border:none;
+}               
+
+.recom-list:after{
+  content:'';
+  display:inline-block;
+  clear: both;
+}
+
+page{
+  font-family: "黑体";
+}
