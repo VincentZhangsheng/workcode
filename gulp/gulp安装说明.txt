@@ -1,0 +1,77 @@
+避免出现异常，请需要严格按照顺序来进行安装配置！
+1，安装nodejs
+2，打开命令行，输入node -v如果出现版本号则nodejs安装成功
+3，cd到项目的根目录下
+4，执行npm init -f来生成package.json
+5，package.json大致如下：
+	{
+	  "name": "frontEnd",
+	  "version": "1.0.0",
+	  "description": "juooo.com static resource",
+	  "main": "gulpfile.js",
+	  "dependencies": {
+	    "del": "^2.2.2",
+	    "gulp-concat": "^2.6.1",
+	    "gulp": "^3.9.1",
+	    "gulp-minify-css": "^1.2.4",
+	    "gulp-uglify": "^2.0.1",
+	    "gulp-rename": "^1.2.2"
+	  },
+	  "devDependencies": {
+	    "del": "^2.2.2",
+	    "gulp": "^3.9.1",
+	    "gulp-concat": "^2.6.1",
+	    "gulp-minify-css": "^1.2.4",
+	    "gulp-rename": "^1.2.2",
+	    "gulp-uglify": "^2.0.1"
+	  },
+	  "scripts": {
+	    "test": "echo \"Error: no test specified\" && exit 1"
+	  },
+	  "keywords": [],
+	  "author": "",
+	  "license": "ISC"
+	}
+6，全局安装 gulp执行npm install --global gulp
+7，作为项目的开发依赖（devDependencies）安装，执行npm install --save-dev gulp
+8，执行npm install gulp-minify-css gulp-uglify gulp-concat gulp-rename gulp-jshint –save-dev
+9，在项目根目录下创建一个名为 gulpfile.js 的文件
+10，gulpfile.js文件的内容大致如下：
+	var gulp 	  = require('gulp'),
+	    minifycss = require('gulp-minify-css'),
+	    concat 	  = require('gulp-concat'),
+	    uglify 	  = require('gulp-uglify'),
+	    rename 	  = require('gulp-rename'),
+	    del    	  = require('del');
+
+	//压缩css
+	gulp.task('minifycss', function() {
+	    return gulp.src('public/Home/app/app-juooo4/css/*.css')      //压缩的文件
+	        //.pipe(gulp.dest('public-version/Home/app/app-juooo4/css'))   //输出文件夹
+	        .pipe(minifycss())   //执行压缩
+	        .pipe(gulp.dest('public-version/Home/app/app-juooo4/css'));  //输出
+	});
+
+	//压缩js
+	gulp.task('minifyjs', function() {
+	    return gulp.src('public/Home/app/app-juooo4/js/*.js')
+	        //.pipe(concat('main.js'))    //合并所有js到main.js
+	        //.pipe(gulp.dest('public-version/Home/app/app-juooo4/js'))    //输出main.js到文件夹
+	        //.pipe(rename({suffix: '.min'}))   //rename压缩后的文件名
+	        .pipe(uglify())    //压缩
+	        .pipe(gulp.dest('public-version/Home/app/app-juooo4/js'));  //输出
+	});
+
+	//执行压缩前，先删除文件夹里的内容
+	gulp.task('clean', function(cb) {
+	    del(['public-version/Home/app/app-juooo4/css', 'public-version/Home/app/app-juooo4/js'], cb)
+	});
+
+	//默认命令，在cmd中输入gulp后，执行的就是这个命令
+	gulp.task('default', ['minifycss', 'minifyjs']);
+
+	//此命令会执行删除，暂时取消改为上面的
+	/*gulp.task('default', ['clean'], function() {
+	    gulp.start('minifycss', 'minifyjs');
+	});*/
+11，执行gulp命令

@@ -263,10 +263,55 @@
                     }
                 }
                 return _str;
-            }
+            },
             
+
+            //格式化处理字符串
+            //ecDo.formatText('1234asda567asd890')
+            //result："12,34a,sda,567,asd,890"
+            //ecDo.formatText('1234asda567asd890',4,' ')
+            //result："1 234a sda5 67as d890"
+            //ecDo.formatText('1234asda567asd890',4,'-')
+            //result："1-234a-sda5-67as-d890"
+            formatText(str, size=3,delimiter=',') {
+                let regText = '\\B(?=(\\w{' + size + '})+(?!\\w))';
+                let reg = new RegExp(regText, 'g');
+                return str.replace(reg,delimiter);
+            },
+
+
+            //找出最长单词 (Find the Longest word in a String)
+            //longestWord('Find the Longest word in a String')
+            //result：7
+            //longestWord('Find|the|Longest|word|in|a|String','|')
+            //result：7
+            longestWord(str, splitType = /\s+/g) {
+                let _max = 0,
+                    _item = '';
+                let strArr = str.split(splitType);
+                strArr.forEach(item => {
+                    if(_max < item.length) {
+                        _max = item.length;
+                        _item = item;
+                    }
+                })
+                return {el:_item, max:_max};
+            },
+
+
+            //句中单词首字母大写 (Title Case a Sentence)
+            //ecDo.titleCaseUp('this is a title')
+            //"This Is A Title"
+            titleCaseUp(str,splitType = /\s+/g) {
+                let strArr = str.split(splitType),
+                    result = "";
+                strArr.forEach(item => {
+                    result += this.changeCase(item,1) + ' ';
+                })
+                return this.trim(result,4);
+            }
         }
-        console.log(ecDo.filterStr(str, 'html,WORD,chinese,special', '*', '%?'));
+        console.log(ecDo.titleCaseUp('this is a title'));
     </script>
 </body>
 
