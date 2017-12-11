@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js常用实例</title>
+</head>
+<body>
+    <script>
+        /*一、字符串操作 */
+        //去除空格 type 1-所有空格  2-前后空格  3-前空格 4-后空格
+        function trim(str, type) {
+            switch (type) {
+                case 1:
+                    return str.replace(/\s+/g, "");
+                case 2:
+                    return str.replace(/(^\s*)|(\s*$)/g, "");
+                case 3:
+                    return str.replace(/(^\s*)/g, "");
+                case 4:
+                    return str.replace(/(\s*$)/g, "");
+                default:
+                    return str;
+            }
+        }
+        // console.log(trim('  1235asd', 1));
+        //result：1235asd
+
+
+        /*type
+        1:首字母大写
+        2：首页母小写
+        3：大小写转换
+        4：全部大写
+        5：全部小写
+        * */
+        function changeCase(str, type) {
+            function ToggleCase(str) {
+                let itemText = '';
+                str.split("").foreach(item => {
+                    if (/^([a-z]+)/.test(item)) {
+                        itemText += item.toUpperCase();
+                    } else if (/^([A-Z]+)/.test(item)) {
+                        itemText += item.toLowerCase();
+                    } else {
+                        itemText += item;
+                    }
+                })
+                return itemText;
+            }
+            switch (type) {
+                case 1:
+                    return str.replace(/\b\w+\b/g, function (word) {
+                        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+                    });
+                case 2:
+                    return str.replace(/\b\w+\b/g, function (word) {
+                        return word.substring(0, 1).toLowerCase() + word.substring(1).toUpperCase();
+                    });
+                case 3:
+                    return ToggleCase(str);
+                case 4:
+                    return str.toUpperCase();
+                case 5:
+                    return str.toLowerCase();
+                default:
+                    return str
+            }
+        }
+        // console.log(changeCase('hello', 1));
+        //result  Hello
+
+
+        //字符串复制
+        function repeatStr(str,count) {
+            return str.repeat(count);
+        }
+        // console.log(repeatStr('abc',2))
+        // result 'abcabc'
+    </script>
+</body>
+</html>
