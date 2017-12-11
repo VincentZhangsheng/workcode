@@ -76,6 +76,15 @@
         }
         // console.log(repeatStr('abc',2))
         // result 'abcabc'
+
+
+        //字符串替换
+        function replaceAll(str,priTxt,repTxt) {
+            let raRegExp = new RegExp(priTxt,'g');
+            return str.replace(raRegExp,repTxt);
+        }
+        // console.log(replaceAll('这里是上海,中国第三大城市','上海','广州'));
+        //result '这里是广州,中国第三大城市'
     </script>
 </body>
 </html>
