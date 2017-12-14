@@ -17,7 +17,7 @@ body {
   margin: 0 auto;
   font-family: Arial, "微软雅黑", sans-serif;
   font-size: 28px/$ppr;
-  background-color: #f5f5f5;
+  background-color: #222;
 }
 
 body,
@@ -218,14 +218,35 @@ p,
 .m-header {
   position: relative;
   height: 88px/$ppr;
-  padding-left: 20px/$ppr;
   text-align: center;
   color: #ffcd32;
-  font-size: 32px/$ppr;
+  font-size: 0;
   .icon {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 12px/$ppr;
+    margin-right: 18px/$ppr;
     width: 60px/$ppr;
-    font-size: 40px/$ppr;
-    margin-right: 20px/$ppr;
+    height: 64px/$ppr;
+    background: url("./logo.png") no-repeat left top;
+    background-size: 100%;
+  }
+  .txt{
+    display: inline-block;
+    vertical-align: top;
+    line-height: 88px/$ppr;
+    font-size: 32px/$ppr;
+  }
+  .mine{
+    position: absolute;
+    top: 0;
+    right: 0;
+    .icon-mine{
+      display: block;
+      padding: 12px;
+      font-size: 40px/$ppr;
+      color: #ffcd32;
+    }
   }
 }
 
