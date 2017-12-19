@@ -627,6 +627,24 @@ p,
         }
       }
     }
+    .dot-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .dot {
+        margin: 0 8px/$ppr;
+        width: 16px/$ppr;
+        height: 16px/$ppr;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .5);
+        &.active {
+          width: 24px/$ppr;
+          height: 24px/$ppr;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.8);
+        }
+      }
+    }
     .progress-wrapper {
       display: flex;
       align-items: center;

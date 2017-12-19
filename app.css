@@ -583,6 +583,27 @@ p {
   background: rgba(255, 255, 255, 0.8);
 }
 
+.normal-player .bottom .dot-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.normal-player .bottom .dot-wrapper .dot {
+  margin: 0 0.17067rem;
+  width: 0.34133rem;
+  height: 0.34133rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.normal-player .bottom .dot-wrapper .dot.active {
+  width: 0.512rem;
+  height: 0.512rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+}
+
 .normal-player .bottom .progress-wrapper {
   display: flex;
   align-items: center;
