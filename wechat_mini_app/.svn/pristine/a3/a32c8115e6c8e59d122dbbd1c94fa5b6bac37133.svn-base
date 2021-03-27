@@ -1,6 +1,0 @@
-/* pages/error/index.wxss */
-@import "../../component/nullTip/nullTip.wxss";
-
-page{
-    background: #f4f4f4;
-}

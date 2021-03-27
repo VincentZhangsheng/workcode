@@ -1,3 +1,0 @@
-<!--pages/error/index.wxml-->
-    <import src="../../component/nullTip/nullTip.wxml"/>
-    <template is="nullTip" data="{{nullTip: nullTip}}"/>
