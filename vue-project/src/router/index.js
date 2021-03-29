@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import findLast from "lodash/findLast"
+import {checkAuthority, isLogin} from "../utils/auth"
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    meta: {auth: ["user","admin"]},
     component: () => import('../layout/index.vue'),
     children: [
       {
@@ -15,13 +18,13 @@ const routes = [
       {
         path: "/material",
         name: "material",
-        meta: {title: "物料"},
+        meta: {title: "物料", auth: ["user","admin"]},
         component: () => import('../views/About.vue'),
       },
       {
         path: "/dashboard",
         name: "dashboard",
-        meta: {title: "导航一"},
+        meta: {title: "导航一", auth: ["user","admin"]},
         component: {render:h => h("router-view")},
         children: [
           {
@@ -41,7 +44,7 @@ const routes = [
       {
         path: "/supplier",
         name: "supplier",
-        meta: {title: "导航二"},
+        meta: {title: "导航二", auth: ["user"]},
         component: {render:h => h("router-view")},
         children: [
           {
@@ -102,6 +105,18 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const record = findLast(to.matched, record => record.meta.auth);
+  if(record && !checkAuthority(record.meta.auth)) {
+    if(!isLogin() && to.path !== "/user/login") {
+      next({
+        path: "/user/login"
+      })
+    } else if(to.path !== "/403") {
+      next({
+        path: "/403"
+      })
+    }
+  }
   next();
 })
 

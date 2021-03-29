@@ -47,6 +47,7 @@ export default {
   height: 100%;
   background-color: #D3DCE6;
   color: #333;
+  overflow-y: scroll;
 }
 
 .main-container {

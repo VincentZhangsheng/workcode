@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-menu default-active="" class="el-menu-vertical-demo" router :collapse="isCollapse">
+        <el-menu :default-active="activeKey" :default-openeds="openKeys" class="el-menu-vertical-demo" router :collapse="isCollapse">
             <template v-for="item in menuData">
                 <el-menu-item v-if="!item.children" :index="item.path" :key="item.name">
                     <i class="el-icon-menu"></i>
@@ -13,33 +13,52 @@
 </template>
 
 <script>
+import {checkAuthority} from "../utils/auth"
 export default {
     components: {
         SubMenu: () => import("./SubMenu"),
     },
     data() {
-      return {
-        isCollapse: false,
-        menuData: this.getMenuData(this.$router.options.routes),
-      };
+        this.openKeysMap = {};
+        this.activeKeyMap = {};
+        return {
+            isCollapse: false,
+            menuData: this.getMenuData(this.$router.options.routes),
+            activeKey: this.activeKeyMap[this.$route.path],
+            openKeys: this.isCollapse ? [] : this.openKeysMap[this.$route.path],
+        };
     },
     methods: {
-        getMenuData(routes) {
+        getMenuData(routes = [], parentKeys = [], selectedKey) {
             const menuData = [];
-            routes.forEach(item => {
+            for(let item of routes) {
+                if(item.meta && item.meta.auth && !checkAuthority(item.meta.auth)) break;
                 if(item.name && !item.hideInMenu) {
+                    this.openKeysMap[item.path] = parentKeys;
+                    this.activeKeyMap[item.path] = item.path || selectedKey;
                     const newItem = {...item};
                     delete newItem.children;
                     if(!item.hideChildrenMenu && item.children) {
-                        newItem.children = this.getMenuData(item.children)
-                    }
+                        newItem.children = this.getMenuData(item.children, [...parentKeys, item.path])
+                    } else {
+                        this.getMenuData(
+                            item.children, 
+                            selectedKey ? parentKeys : [...parentKeys, item.path],
+                            selectedKey || item.path
+                        )
+                    } 
                     menuData.push(newItem)
                 } else if(!item.hideInMenu && !item.hideChildrenMenu && item.children) {
-                    menuData.push(...this.getMenuData(item.children))
+                    menuData.push(...this.getMenuData(item.children, [...parentKeys, item.path]))
                 }
-            })
-            console.log(menuData)
+            }
             return menuData
+        }
+    },
+    watch: {
+        "$route.path": function(val) {
+            this.activeKey = this.activeKeyMap[val];
+            this.openKeys = this.isCollapse ? [] : this.openKeysMap[val]
         }
     }
 }
