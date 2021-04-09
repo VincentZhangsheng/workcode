@@ -44,7 +44,7 @@ const routes = [
       {
         path: "/supplier",
         name: "supplier",
-        meta: {title: "导航二", auth: ["user"]},
+        meta: {title: "导航二", auth: ["user","admin"]},
         component: {render:h => h("router-view")},
         children: [
           {

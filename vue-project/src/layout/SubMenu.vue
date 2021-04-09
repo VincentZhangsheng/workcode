@@ -1,17 +1,16 @@
 <template functional>
-    <el-submenu :key="props.menuInfo.name" :index="props.menuInfo.path">
+    <pu-submenu :key="props.menuInfo.name" :index="props.menuInfo.path">
         <template slot="title">
-            <i class="el-icon-location"></i>
-            <span slot="title">导航一</span>
+            <i class="el-icon-caret-right pu-submenu__icon-arrow"></i>
+            <span slot="title">{{props.menuInfo.meta.title}}</span>
         </template>
         <template v-for="item in props.menuInfo.children">
-            <el-menu-item v-if="!item.children" :index="item.path" :key="item.name">
-                <i class="el-icon-menu"></i>
-                <span slot="title">导航二</span>
-            </el-menu-item>
+            <pu-menu-item v-if="!item.children" :index="item.path" :key="item.name">
+                <span slot="title">{{props.menuInfo.meta.title}}</span>
+            </pu-menu-item>
             <sub-menu v-else :menu-info="item" :key="item.name"></sub-menu>
         </template>
-    </el-submenu>
+    </pu-submenu>
 </template>
 
 <script>

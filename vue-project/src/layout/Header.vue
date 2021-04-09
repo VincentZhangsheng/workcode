@@ -65,7 +65,7 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 40px;
-  background: #75ccb9;
+  background: #304869;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
   padding-left: 10px;
   padding-right: 10px;
@@ -88,7 +88,7 @@ export default {
       font-size: 14px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
-      color: #333333;
+      color: #FFFFFF;
       margin-left: 10px;
       overflow: hidden;
       text-overflow: ellipsis;

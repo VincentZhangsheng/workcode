@@ -1,19 +1,18 @@
 <template>
     <div>
-        <el-menu :default-active="activeKey" :default-openeds="openKeys" class="el-menu-vertical-demo" router :collapse="isCollapse">
+        <pu-menu :default-active="activeKey" :default-openeds="openKeys" :unique-opened="isUnique" router :collapse="isCollapse">
             <template v-for="item in menuData">
-                <el-menu-item v-if="!item.children" :index="item.path" :key="item.name">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">导航二</span>
-                </el-menu-item>
+                <pu-menu-item v-if="!item.children" :index="item.path" :key="item.name">
+                    <span slot="title">{{item.meta.title}}</span>
+                </pu-menu-item>
                 <sub-menu v-else :menu-info="item" :key="item.name"></sub-menu>
             </template>
-        </el-menu>
+        </pu-menu>
     </div>
 </template>
 
 <script>
-import {checkAuthority} from "../utils/auth"
+import {checkAuthority} from "../utils/auth";
 export default {
     components: {
         SubMenu: () => import("./SubMenu"),
@@ -22,6 +21,7 @@ export default {
         this.openKeysMap = {};
         this.activeKeyMap = {};
         return {
+            isUnique: true,
             isCollapse: false,
             menuData: this.getMenuData(this.$router.options.routes),
             activeKey: this.activeKeyMap[this.$route.path],
@@ -56,9 +56,18 @@ export default {
         }
     },
     watch: {
-        "$route.path": function(val) {
-            this.activeKey = this.activeKeyMap[val];
-            this.openKeys = this.isCollapse ? [] : this.openKeysMap[val]
+        "$route": {
+            handler(route) {
+                this.activeKey = this.activeKeyMap[route.path];
+                this.$store.dispatch("viewTabs/addViewItem", {
+                    name: route.name || "",
+                    path: route.path,
+                    title: route.meta.title || "no-name",
+                    active: true
+                });
+                // this.openKeys = this.isCollapse ? [] : this.openKeysMap[route.path]
+            },
+            deep: true
         }
     }
 }

@@ -1,4 +1,4 @@
-# project
+# purchase-ui
 
 ## Project setup
 ```
