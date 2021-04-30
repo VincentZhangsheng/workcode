@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    viewTabs
+    viewTabs,
   },
   getters,
   plugins: [persistedState({ storage: window.sessionStorage })]

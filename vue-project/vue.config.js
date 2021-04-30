@@ -1,26 +1,31 @@
+const webpack = require("webpack");
+
 module.exports = {
   lintOnSave: false,
   devServer: {
+    port: 8088,
     proxy: {
-      "/": {
-        target: "http://192.168.220.163/material-management-service/",
-        changeOrigin: true,
-      },
-    },
+      "/api": {
+        target: "http://admin-dev.winnermedical.com",
+        changeOrigin: true
+      }
+    }
   },
-  
-  
+  runtimeCompiler: true,
+  lintOnSave: false,
+  publicPath: "/",
   chainWebpack(config) {
-    // set svg-sprite-loader
-    // const oneOfsMap = config.module.rule('scss').oneOfs.store;
-    // oneOfsMap.forEach(item => {
-    //   item
-    //     .use('sass-resources-loader')
-    //     .loader('sass-resources-loader')
-    //     .options({
-    //       resources: ['./src/assets/styles/var.scss']
-    //     })
-    //     .end()
-    // })
+    config.plugin("provide").use(webpack.ProvidePlugin, [
+      {
+        _: "lodash"
+      }
+    ]);
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `@import "~@/assets/var.scss";`
+      }
+    }
   }
 };

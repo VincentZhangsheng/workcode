@@ -2,7 +2,9 @@
  * @request 请求封装类 Axios
  * **/
 import axios from 'axios'
-import { Message } from 'element-ui'
+import {
+  Message
+} from 'element-ui'
 
 /**
  * @http status状态码管理说明
@@ -44,9 +46,15 @@ service.interceptors.response.use(
      * @headers response响应头
      * @config request请求的配置信息
      * **/
-    if ( response.data.success === true) {
-      const { status, data } = response
-      return { statusCode: status, data }
+    if (response.data.success === true) {
+      const {
+        status,
+        data
+      } = response
+      return {
+        statusCode: status,
+        data
+      }
     } else {
       Message({
         showClose: true,
@@ -55,16 +63,16 @@ service.interceptors.response.use(
       })
       return Promise.reject(response.data);
     }
-    
+
   },
   (error) => {
     console.error(error)
     switch (error.response.status) {
       case 401:
         Message({
-            showClose: true,
-            message: '请登录',
-            type: 'error',
+          showClose: true,
+          message: '请登录',
+          type: 'error',
         })
         break
       case 404:
@@ -86,31 +94,31 @@ service.interceptors.response.use(
 )
 
 class Request {
-    get(url, params) {
-        return new Promise((resolve, reject) => {
-            service.get(url, {
-                data: params
-            })
-            .then((res) => {
-                resolve(res.data);
-            })
-            .catch((err) => {
-                reject(err);
-            });
+  get(url, params) {
+    return new Promise((resolve, reject) => {
+      service.get(url, {
+          data: params
+        })
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
         });
-    }
+    });
+  }
 
-    post(url, params) {
-        return new Promise((resolve, reject) => {
-            service.post(url, params)
-            .then((res) => {
-                resolve(res.data);
-            })
-            .catch((err) => {
-                reject(err);
-            });
+  post(url, params) {
+    return new Promise((resolve, reject) => {
+      service.post(url, params)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch((err) => {
+          reject(err);
         });
-    }
+    });
+  }
 }
 
 const request = new Request();

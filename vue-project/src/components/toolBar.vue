@@ -1,24 +1,16 @@
 <template>
-    <div class="toolbar-container">
-        <el-tooltip
-            class="tool-item"
-            effect="dark"
-            content="提示文字"
-            placement="bottom-start"
-        >
-            <el-button @click="addTableItem" size="mini">add</el-button>
-        </el-tooltip>
-        
-        <slot name="tooltip"/>
-    </div>
+  <div class="toolbar-container">
+    
+    <slot name="tooltip" />
+  </div>
 </template>
 <script>
 export default {
   name: "ToolBar",
   methods: {
-      addTableItem() {
-          this.$emit("add-item")
-      }
+    addTableItem() {
+      this.$emit("add-item");
+    }
   }
 };
 </script>
@@ -31,7 +23,8 @@ export default {
   width: 100%;
   height: 40px;
   background: #ddeafd;
-  border-bottom: 1px solid #99bae7;
+  border: 1px solid #99bae7;
+  border-top: none;
   .tool-item {
     cursor: pointer;
     & + .tool-item {

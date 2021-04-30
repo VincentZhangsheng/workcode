@@ -151,7 +151,7 @@ export default {
   width: 100%;
   height: 30px;
   background: linear-gradient(180deg, #C8DDFF 0%, #0F448D 100%);
-  border-bottom: 1px solid #99BAE7;
+  border: 1px solid #99BAE7;
   overflow: hidden;
 
   /*draggable*/

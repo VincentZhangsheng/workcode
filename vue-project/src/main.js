@@ -2,13 +2,18 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+
 import ElementUI from "element-ui"
-import "element-ui/lib/theme-chalk/index.css"
+import "./variables.scss"
+// import "element-ui/lib/theme-chalk/index.css"
 import EffTable from 'eff-table'
 import 'eff-table/dist/eff-table.css'
 import PurchaseUI from "./index.js"
+import "../lib/styles/index.css"
+
 import ToolBar from "./components/toolBar"
 import directives from "./directives/click-outside/index"
+
 import request from "./utils/service.js"
 
 Vue.use(ElementUI)

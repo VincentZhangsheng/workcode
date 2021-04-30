@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import emitter from "./emitter";
+import emitter from "../../mixins/emitter";
 export default {
   name: "PuMenu",
   componentName: "PuMenu",

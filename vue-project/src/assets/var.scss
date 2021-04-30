@@ -1,0 +1,19 @@
+$color_0: #000;
+$color_3: #333;
+$color_6: #666;
+$color_9: #999;
+$fs12: 12px;
+$fs14: 14px;
+$fs16: 16px;
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

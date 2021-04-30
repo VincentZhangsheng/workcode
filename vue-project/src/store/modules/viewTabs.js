@@ -45,7 +45,6 @@ const actions = {
   },
 
   delVisitedView({ commit }, viewTabs) {
-    console.log(viewTabs)
     commit("DEL_VISITED_VIEW", viewTabs);
   },
 

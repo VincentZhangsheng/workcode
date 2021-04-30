@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="table-page">
     <tool-bar @add-item="addItem">
       <template slot="tooltip">
         <el-tooltip
@@ -8,7 +8,7 @@
           content="提示文字"
           placement="bottom-start"
         >
-          <el-button @click="deleteItems" size="mini">delete</el-button>
+          <el-button @click="deleteItems" size="mini" type="primary">delete</el-button>
         </el-tooltip>
       </template>
     </tool-bar>
@@ -18,9 +18,11 @@
         v-model="columns"
         :data="data"
         :edit-stop="editStop"
+        :height="560"
         drag
         edit
         border
+        :row-class-name="rowClassName"
         :cell-class-name="cellClassName"
         :show-summary="true"
         sum-text="合计"
@@ -43,12 +45,16 @@
 </template>
 
 <script>
+import mock from 'mockjs'
 export default {
   name: "about",
   data() {
     return {
       data: [],
       editStop: false,
+      editList: [],
+      addList: [],
+      deleteList: [],
       columns: [
         {
           show: true,
@@ -58,8 +64,8 @@ export default {
         },
         {
           show: true,
-          prop: "whType",
-          title: "仓库类型",
+          prop: "codeRule",
+          title: "号码段编号",
           cellRender: (h, { row, prop }) => {
             // const typeItem = this.whTypeOptions.find(item => {
             //   return item.value == row[prop]
@@ -69,44 +75,23 @@ export default {
           edit: {
             render: (h, { prop, row }) => {
               return (
-                <el-select
-                  {...{
-                    attrs: {
-                      value: row[prop],
-                      automaticDropdown: true,
-                      filterable: true,
-                      defaultFirstOption: true
-                    },
-                    on: {
-                      "visible-change": this.visibleChange,
-                      change: val => (row[prop] = val)
-                    }
-                  }}
-                >
-                  {this.whTypeOptions.map(item => {
-                    return (
-                      <el-option
-                        key={item.value}
-                        title={item.lable}
-                        value={item.value}
-                      />
-                    );
-                  })}
-                </el-select>
+                <el-input
+                  value={row[prop]}
+                  on-input={val => (row[prop] = val)}
+                />
               );
             }
           }
         },
         {
           show: true,
-          prop: "whCode",
-          title: "仓库编号",
+          prop: "codeLength",
+          title: "编号长度",
           edit: {
             render: (h, { prop, row }) => {
               return (
                 <el-input
                   value={row[prop]}
-                  disabled
                   on-input={val => (row[prop] = val)}
                 />
               );
@@ -116,8 +101,8 @@ export default {
         },
         {
           show: true,
-          prop: "whDesc",
-          title: "仓库描述",
+          prop: "startCode",
+          title: "起始编号",
           edit: {
             render: (h, { prop, row }) => {
               return (
@@ -129,37 +114,69 @@ export default {
             }
           }
         },
+        // {
+        //   show: true,
+        //   prop: "endCode",
+        //   title: "公司代码",
+        //   edit: {
+        //     render: (h, { prop, row }) => {
+        //       return (
+        //         <el-select
+        //           {...{
+        //             attrs: {
+        //               value: row[prop],
+        //               automaticDropdown: true,
+        //               filterable: true,
+        //               defaultFirstOption: true
+        //             },
+        //             on: {
+        //               "visible-change": this.visibleChange,
+        //               change: val => (row[prop] = val)
+        //             }
+        //           }}
+        //         >
+        //           {this.whCompany.map(item => {
+        //             return (
+        //               <el-option
+        //                 key={item.value}
+        //                 title={item.lable}
+        //                 value={item.value}
+        //               />
+        //             );
+        //           })}
+        //         </el-select>
+        //       );
+        //     }
+        //   }
+        // },
         {
           show: true,
-          prop: "companyCode",
-          title: "公司代码",
+          prop: "endCode",
+          title: "截止编号",
           edit: {
             render: (h, { prop, row }) => {
               return (
-                <el-select
-                  {...{
-                    attrs: {
-                      value: row[prop],
-                      automaticDropdown: true,
-                      filterable: true,
-                      defaultFirstOption: true
-                    },
-                    on: {
-                      "visible-change": this.visibleChange,
-                      change: val => (row[prop] = val)
-                    }
-                  }}
-                >
-                  {this.whCompany.map(item => {
-                    return (
-                      <el-option
-                        key={item.value}
-                        title={item.lable}
-                        value={item.value}
-                      />
-                    );
-                  })}
-                </el-select>
+                <el-input
+                  value={row[prop]}
+                  on-input={val => (this.changeCell(val,prop,row))}
+                />
+              );
+            }
+          }
+        },
+        {
+          show: true,
+          prop: "enterStyle",
+          title: "自动录入",
+          edit: {
+            render: (h, { prop, row }) => {
+              return (
+                <el-switch
+                  value={row[prop]}
+                  active-value="Y"
+                  inactive-value="N"
+                  on-change={val => (row[prop] = val)}
+                />
               );
             }
           }
@@ -179,180 +196,7 @@ export default {
             }
           }
         },
-        {
-          show: true,
-          prop: "grade",
-          title: "优先级",
-          edit: {
-            render: (h, { prop, row }) => {
-              return (
-                <el-input
-                  value={row[prop]}
-                  on-input={val => (row[prop] = val)}
-                />
-              );
-            }
-          }
-        },
-        {
-          show: true,
-          prop: "capacityManage",
-          title: "启用库容管理",
-          edit: {
-            render: (h, { prop, row }) => {
-              return (
-                <el-switch
-                  value={row[prop]}
-                  active-value="Y"
-                  inactive-value="N"
-                  on-change={val => (row[prop] = val)}
-                />
-              );
-            }
-          }
-        },
-        {
-          show: true,
-          prop: "batchManage",
-          title: "启用批次管理",
-          edit: {
-            render: (h, { prop, row }) => {
-              return (
-                <el-switch
-                  value={row[prop]}
-                  active-value="Y"
-                  inactive-value="N"
-                  on-change={val => (row[prop] = val)}
-                />
-              );
-            }
-          }
-        },
-        {
-          show: true,
-          prop: "startMedium",
-          title: "启用容器管理",
-          edit: {
-            render: (h, { prop, row }) => {
-              return (
-                <el-switch
-                  value={row[prop]}
-                  active-value="Y"
-                  inactive-value="N"
-                  on-change={val => (row[prop] = val)}
-                />
-              );
-            }
-          }
-        },
-        {
-          show: true,
-          prop: "shippingPoint",
-          title: "装运点",
-          edit: {
-            render: (h, { prop, row }) => {
-              return (
-                <el-select
-                  {...{
-                    attrs: {
-                      value: row[prop],
-                      automaticDropdown: true,
-                      filterable: true,
-                      defaultFirstOption: true
-                    },
-                    on: {
-                      "visible-change": this.visibleChange,
-                      change: val => (row[prop] = val)
-                    }
-                  }}
-                >
-                  {this.whLoadingPoint.map(item => {
-                    return (
-                      <el-option
-                        key={item.value}
-                        title={item.lable}
-                        value={item.value}
-                      />
-                    );
-                  })}
-                </el-select>
-              );
-            }
-          }
-        },
-        {
-          show: true,
-          prop: "pickPoint",
-          title: "拣配点",
-          edit: {
-            render: (h, { prop, row }) => {
-              return (
-                <el-select
-                  {...{
-                    attrs: {
-                      value: row[prop],
-                      automaticDropdown: true,
-                      filterable: true,
-                      defaultFirstOption: true
-                    },
-                    on: {
-                      "visible-change": this.visibleChange,
-                      change: val => (row[prop] = val)
-                    }
-                  }}
-                >
-                  {this.whLoadingPoint.map(item => {
-                    return (
-                      <el-option
-                        key={item.value}
-                        title={item.lable}
-                        value={item.value}
-                      />
-                    );
-                  })}
-                </el-select>
-              );
-            }
-          }
-        }
       ],
-      whTypeOptions: [
-        {
-          label: "44",
-          value: "3R"
-        },
-        {
-          label: "赠品仓",
-          value: "A001"
-        },
-        {
-          label: "我问问",
-          value: "www"
-        }
-      ],
-      whCompany: [
-        {
-          label: "44",
-          value: "444"
-        },
-        {
-          label: "全棉",
-          value: "A001"
-        }
-      ],
-      whLoadingPoint: [
-        {
-          label: "sdfs",
-          value: "wdadsdfs"
-        }
-      ],
-      whPikingPoint: [
-        {
-          label: "拣配点",
-          value: "1"
-        }
-      ],
-      multipleSelection: []
     };
   },
   created() {
@@ -360,27 +204,50 @@ export default {
   },
   methods: {
     async getCodeList() {
-      let codeList = (await this.$http.post("/whInfo/queryWhInfoList", {
+      let codeList = (await this.$http.post("/api/material/code_range/page", {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        webKey: "reservedTypeCodeRange"
       })).data.list;
       this.data.splice(0, this.data.length, ...codeList);
+    },
+    changeCell(val,prop,row) {
+      row[prop] = val
+      if(!row.type) {
+        row["type"] = "edit";
+        let _index = this.editList.findIndex(item => {
+          return item.id === row.id
+        })
+        if(_index < 0) {
+          this.editList.push(row)
+        }
+      }
+    },
+    rowClassName({row, rowIndex}) {
+      if(row.type) {
+        switch (row.type) {
+          case "add":
+            return "row-add"
+          case "edit":
+            return "row-edit"
+          case "delete":
+            return "row-delete"
+        }
+      }
+      return ""
     },
     visibleChange(val) {
       this.editStop = val;
     },
     addItem() {
       this.data.push({
-        whType: "",
-        whCode: "",
-        whDesc: "",
-        companyCode: "",
-        grade: "",
-        shippingPoint: "",
-        remark: "",
-        batchManage: "",
-        startMedium: "",
-        pickPoint: ""
+        type: "add",
+        codeRule: "",
+        codeLength: "",
+        startCode: "",
+        endCode: "",
+        enterStyle: "",
+        remark: ""
       });
       this.$refs.table.focus(this.data.length - 1);
     },
@@ -402,22 +269,34 @@ export default {
       this.multipleSelection = val;
     },
     deleteItems() {
-      console.log(this.multipleSelection);
       if (!this.data.length) return;
       if (!this.multipleSelection.length) {
         this.$message.error("请先选择要删除的数据！");
         return;
       }
-      let filterList = this.data.filter(item => {
-        return !this.multipleSelection.includes(item);
-      });
-      this.data.splice(0, this.data.length, ...filterList);
+      this.multipleSelection.forEach(item => {
+        item.type = "delete"
+        let _index = this.data.findIndex(row => {
+          return row.id == item.id;
+        })
+        this.data.splice(_index, 1, item);
+        // let rowItem = this.data.find(row => {
+        //   return row.id == item.id;
+        // })
+        // rowItem["type"] = "delete"
+      })
+      this.deleteList.push(...this.multipleSelection)
+      this.deleteList = [...new Set(this.deleteList)]
+      console.log(this.deleteList)
+      this.multipleSelection.splice(0,this.multipleSelection.length)
+      // let filterList = this.data.filter(item => {
+      //   return !this.multipleSelection.includes(item);
+      // });
+      // this.data.splice(0, this.data.length, ...filterList);
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.table-container {
-  padding: 10px;
-}
+
 </style>

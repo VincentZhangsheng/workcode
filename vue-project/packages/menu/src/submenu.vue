@@ -1,7 +1,7 @@
-<script>
-import PuCollapseTransition from "./collapse-transition";
+<script type="text/jsx">
+import PuCollapseTransition from "../../transitions/collapse-transition";
 import menuMixin from "./menu-mixin";
-import Emitter from "./emitter";
+import Emitter from "../../mixins/emitter";
 
 export default {
   name: "PuSubmenu",
@@ -84,11 +84,7 @@ export default {
       let isFirstLevel = true;
       let parent = this.$parent;
       while (parent && parent !== this.rootMenu) {
-        if (
-          ["PuSubmenu"].indexOf(
-            parent.$options.componentName
-          ) > -1
-        ) {
+        if (["PuSubmenu"].indexOf(parent.$options.componentName) > -1) {
           isFirstLevel = false;
           break;
         } else {
@@ -117,7 +113,7 @@ export default {
         return;
       }
       this.dispatch("PuMenu", "submenu-click", this);
-    },
+    }
   },
   created() {
     this.$on("mouse-enter-child", () => {
