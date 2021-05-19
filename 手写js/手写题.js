@@ -136,16 +136,15 @@ function curry(fn) {
  * 函数可能有返回值
  */
 Function.prototype.myCall = function(context) {
-	if (typeof this !== "function") {
-		throw new TypeError("error");
+	if(typeof this !== "function") {
+		throw new TypeError("error")
 	}
 	context = context || window;
-	let args = [...arguments].slice(1),
-		rusult = null;
+	let args = [...arguments].slice(1), result = null;
 	context.fn = this;
 	result = context.fn(...args);
 	delete context.fn;
-	return result
+	return result;
 }
 
 /*
@@ -156,13 +155,13 @@ Function.prototype.myCall = function(context) {
  * 函数可能有返回值
  */
 Function.prototype.myApply = function(context) {
-	if (typeof this !== "function") {
-		throw new TypeError("error")
+	if(typeof this !== "function") {
+		throw new TypeError("error");
 	}
 	let result = null;
 	context = context || window;
 	context.fn = this;
-	if (arguments[1]) {
+	if(arguments[1]) {
 		result = context.fn(...arguments[1]);
 	} else {
 		result = context.fn()
@@ -184,10 +183,10 @@ Function.prototype.myBind = function(context) {
 	var self = this;
 	var args = [...arguments].slice(1);
 	var fb = function() {
-		var bindArgs = [...arguments].slice(1)
-		return self.apply(this instanceof fb ? this : context, args.concat(bindArgs))
+		var bindArgs = [...arguments].slice(1);
+		return self.apply(this instanceof fb ? fb : context, args.concat(bindArgs));
 	}
-	var fn = function() {};
+	var fn = function() {}
 	fn.prototype = this.prototype;
 	fb.prototype = new fn();
 	return fb;
@@ -331,4 +330,15 @@ MyPromise.all = function(promiseArr) {
 			})
 		})
 	})
+}
+MyPromise.race = function(promiseArr) {
+  return new MyPromise((resolve, reject) => {
+    promiseArr.forEach(p => {
+      MyPromise.resolve(p).then(val => {
+        resolve(val)
+      }, err => {
+        reject(err)
+      })
+    })
+  })
 }

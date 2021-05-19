@@ -3,12 +3,12 @@ var twoSum = function(nums, target) {
 	let map = new Map();
 	for (let i = 0; i < nums.length; i++) {
 		if (map.has(target - nums[i])) {
-			return [map.get(target - nums[i]), i];
+			return [map.get(target - nums[i]), i]
 		} else {
 			map.set(nums[i], i)
 		}
 	}
-	return [];
+	return []
 }
 
 //三数之和 15
@@ -34,26 +34,26 @@ var threeSum = function(nums) {
 }
 var threeSum = function(nums) {
 	if (!nums || nums.length < 3) return;
-	let res = [];
-	let len = nums.length;
+	let res = [],
+		len = nums.length;
 	nums.sort((a, b) => a - b);
 	for (let i = 0; i < len - 2; i++) {
 		if (nums[i] > 0) break;
 		if (i > 0 && nums[i] === nums[i - 1]) continue;
-
 		let left = i + 1,
 			right = len - 1;
 		while (left < right) {
-			if (nums[i] + nums[left] + nums[right] === 0) {
+			let sum = nums[i] + nums[left] + nums[right];
+			if (sum === 0) {
 				res.push([nums[i], nums[left], nums[right]]);
 				while (left < right && nums[left] === nums[left + 1]) left++;
 				while (left < right && nums[right] === nums[right - 1]) right--;
 				left++;
-				right--
-			} else if (nums[i] + nums[left] + nums[right] > 0) {
-				right--
+				right--;
+			} else if (sum > 0) {
+				right--;
 			} else {
-				left++
+				left++;
 			}
 		}
 	}
@@ -63,19 +63,18 @@ var threeSum = function(nums) {
 //16最接近的三数之和
 var threeSumClosest = function(nums, target) {
 	nums.sort((a, b) => a - b);
-	let res = nums[0] + nums[1] + nums[nums.length - 1];
-	for (let i = 0; i < nums.length - 2; i++) {
-		let left = i + 1,
-			right = nums.length - 1;
-		while (left < right) {
-			let sum = nums[i] + nums[left] + nums[right];
-			sum > target ? right-- : left++;
-			if (Math.abs(sum - target) < Math.abs(res - target)) {
-				res = sum;
-			}
-		}
-	}
-	return res;
+  let res = nums[0] + nums[1] + nums[nums.length - 1];
+  for(let i = 0; i < nums.length - 2; i++) {
+    let left = i + 1, right = nums.length - 1;
+    while(left < right) {
+      let sum = nums[i] + nums[left] + nums[right];
+      sum > target ? right-- : left++;
+      if(Math.abs(sum - target) < Math.abs(res - target)) {
+        res = sum;
+      }
+    }
+  }
+  return res;
 };
 
 //数组交集 350
@@ -122,6 +121,7 @@ var merge = function(nums1, m, nums2, n) {
 		j--;
 		k--;
 	}
+  return nums1;
 };
 
 //回文子串 647
@@ -152,19 +152,20 @@ var countSubstrings = function(s) {
 
 //最长公共前缀 14
 var longestCommonPrefix = function(strs) {
-	if (!strs || strs.length == 0) return "";
-	if (strs.length == 1) return strs[0];
-	let ans = strs[0],
-		len = strs.length;
-	for (let i = 1; i < len; i++) {
-		let j = 0;
-		for (; j < ans.length && j < strs[i].length; j++) {
-			if (ans[j] != strs[i][j]) break;
-		}
-		ans = ans.substr(0, j);
-		if (ans === "") return ans;
-	}
-	return ans;
+	if(!strs || strs.length === 0) return "";
+  if(strs.length === 1) return strs[0];
+  let ans = strs[0];
+  for(let i = 0; i < strs.length; i++) {
+    let j = 0;
+    for(; j < ans.length && j < strs[i].length; j++) {
+      if(ans[j] !== strs[i][j]) {
+        break
+      }
+    }
+    ans = ans.subStr(0, j);
+    if(ans === "") return ans;
+  }
+  return ans;
 };
 var longestCommonPrefix = function(strs) {
 	if (!strs || strs.length == 0) return "";
@@ -254,7 +255,6 @@ var generateParenthesis = function(n) {
 let quickSort = arr => {
 	quick(arr, 0, arr.length - 1)
 }
-
 let quick = (arr, left, right) => {
 	if (left < right) {
 		let datum = arr[Math.floor(Math.random() * (right - left + 1)) + left],
@@ -468,7 +468,10 @@ var maxProduct = function(nums) {
 var maxProduct = function(nums) {
 	if (!nums || nums.length === 0) return 0;
 	let res = nums[0];
-	let dp = [[0, 0],[0, 0]]
+	let dp = [
+		[0, 0],
+		[0, 0]
+	]
 	dp[0][0] = nums[0];
 	dp[0][1] = nums[0];
 	for (let i = 1; i < nums.length; i++) {
@@ -497,3 +500,59 @@ var maxProduct = function(nums) {
 	}
 	return res;
 }
+
+//300 数组最长子序列
+var lengthOfLIS = function(nums) {
+	if (!nums || nums.length === 0) return 0;
+	let res = 1;
+	let dp = new Array(nums.length + 1).fill(1);
+	for (let i = 0; i < nums.length; i++) {
+		for (let j = 0; j < i; j++) {
+			if (nums[j] < nums[i]) {
+				dp[i] = Math.max(dp[i], dp[j] + 1)
+			}
+		}
+		res = Math.max(res, dp[i]);
+	}
+	return res;
+};
+
+//322 零钱兑换
+var coinChange = function(coins, amount) {
+	let max = amount + 1;
+	let dp = new Array(amount + 1).fill(max);
+	dp[0] = 0;
+	for (let i = 1; i <= amount; i++) {
+		for (let j = 0; j < coins.length; j++) {
+			if (coins[j] <= i) {
+				dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+			}
+		}
+	}
+	return dp[amount] > amount ? -1 : dp[amount];
+};
+
+//72 编辑距离
+var minDistance = function(word1, word2) {
+	let m = word1.length,
+		n = word2.length;
+	let dp = new Array(m + 1).fill(0);
+	for (let i = 0; i < m + 1; i++) {
+		dp[i] = new Array(n + 1).fill(0)
+	}
+	for (let i = 0; i < m + 1; i++) {
+		dp[i][0] = i
+	}
+	for (let j = 0; j < n + 1; j++) {
+		dp[0][j] = j;
+	}
+
+	for (let i = 1; i < m + 1; i++) {
+		for (let j = 1; j < n + 1; j++) {
+			dp[i][j] = Math.min(dp[i - 1][j - 1] + (word1[i - 1] == word2[j - 1] ? 0 : 1), dp[i - 1][j] + 1, dp[i][
+				j - 1
+			] + 1)
+		}
+	}
+	return dp[m][n]
+};
