@@ -114,6 +114,52 @@ function throttle(fn, delay) {
 		}
 	}
 }
+/* 
+节流 + 支持取消
+options.leading 来表示是否可以立即执行一次，
+opitons.trailing 表示结束调用的时候是否还要执行一次，默认都是 true。
+注意设置的时候不能同时将 leading 或 trailing 设置为 false。 
+*/
+function throttle(func, wait, options) {
+  var timeout, context, args, result;
+  var previous = 0;
+  if(!options) options = {};
+
+  var later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if(!timeout) context = args = null;
+  }
+
+  var throttled = function() {
+    var _now = Date.now();
+    if (!previous && options.leading === false) previous = _now;
+    var remaining = wait - (_now - previous);
+    context = this;
+    args = arguments;
+    if(remaining <= 0 && remaining > wait) {
+      if(timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = _now;
+      result = func.apply(context, args);
+      if(!timeout) context = args = null;
+    } else if(!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  }
+
+  throttled.cancel = function() {
+    clearTimeout(timeout);
+    previous = 0;
+    timeout = context = args = null;
+  }
+
+  return throttled;
+}
 
 //柯里化
 function curry(fn) {
@@ -217,6 +263,62 @@ function deepClone(obj, map = new WeakMap()) {
 	} else {
 		return obj;
 	}
+}
+
+//LazyMan
+function _LazyMan(name) {
+  this.name = name;
+  this.tasks = [];
+  this.default();
+  var _this = this;
+  setTimeout(function() {
+    _this.next();
+  }, 0)
+}
+_LazyMan.prototype.default = function() {
+  var _this = this;
+  var task = function() {
+    console.log(`Hi! this is ${_this.name}`);
+    _this.next();
+  }
+  this.tasks.push(task);
+  return this;
+}
+_LazyMan.prototype.next = function(){
+  var task = this.tasks.shift();
+  task && task();
+}
+_LazyMan.prototype.sleep = function(num) {
+  var _this = this;
+  var task = function() {
+    setTimeout(function() {
+      console.log(`wait for ${num}`);
+      _this.next();
+    }, num * 1000)
+  }
+  this.tasks.push(task);
+  return this;
+}
+_LazyMan.prototype.sleepFirst = function(num) {
+  var _this = this;
+  var task = function() {
+    setTimeout(function() {
+      console.log(`Wait first after ${num}`);
+      _this.next();
+    }, 1000 * num)
+  }
+  this.tasks.unshift(task);
+  return this;
+}
+_LazyMan.prototype.eat = function(some) {
+  var task = function() {
+    console.log(`Eating ${some}`)
+  }
+  this.tasks.push(task);
+  return this;
+}
+function LazyMan(name) {
+  return new _LazyMan(name)
 }
 
 //promise
